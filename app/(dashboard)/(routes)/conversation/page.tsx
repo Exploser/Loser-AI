@@ -66,20 +66,15 @@ const ConversationPage = () => {
             />
             <div className="px-4 lg:px-8">
                 <div className='space-y-4 mt-4'>
-                    {isLoading && (
-                        <div className='p-8 rounded-lg w-full flex items-center justify-center bg-muted'>
-                            <Loader />
-                        </div>
-                    )}
                     {messages.length === 0 && !isLoading && (
                         <div>
                             <Empty
                                 label='Start a conversation by typing a message in the input above.'
-                            />
+                                />
                         </div>
                     )}
                     <div className='flex flex-col-reverse gap-y-4'>
-                        {messages.map((message, index) => (
+                        {messages.slice().reverse().map((message, index) => (
                             <div key={index} className={cn(`p-8 w-full items-center flex gap-x-8 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`)}>
                                 <div className={`p-4 flex flex-row rounded-lg ${message.role === 'user' ? 'bg-violet-500/10' : 'bg-violet-500/20'}`}>
                                     {message.role === 'user' ? <UserAvatar/> : <BotAvatar/>}
@@ -88,6 +83,11 @@ const ConversationPage = () => {
                             </div>
                         ))}
                     </div>
+                        {isLoading && (
+                            <div className='p-8 rounded-lg w-full flex items-center justify-center bg-muted'>
+                                <Loader />
+                            </div>
+                        )}
                 </div>
             </div>
             <div className='sticky bottom-0 bg-white'> 
