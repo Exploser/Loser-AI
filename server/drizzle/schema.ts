@@ -24,7 +24,7 @@ export const userApiLimit = createTable(
   "userApiLimit",
   {
     id: serial("id").primaryKey().notNull(),
-    userId: varchar("userId", {length:256}).notNull(),
+    userId: varchar("userId", { length: 256 }).notNull(),
     count: integer('count').default(0).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -35,6 +35,26 @@ export const userApiLimit = createTable(
     return {
       unique: {
         uniqueIdx: uniqueIndex('unique_idx').on(userApiLimit.id),
+      }
     }
-  }}
+  }
+);
+
+export const userSubscription = createTable(
+  "userSubscription",
+  {
+    id: serial("id").primaryKey().notNull(),
+    userId: varchar("userId", { length: 256 }).notNull().unique(),
+    stripeCustomerId: varchar("stripe_customer_id", { length: 256 }),
+    stripeSubscriptionId: varchar("stripe_subscription_id", { length: 256 }),
+    stripePriceId: varchar("stripe_price_id", { length: 256 }),
+    stripeCurrentPeriodEnd: timestamp("stripe_current_period_end"),
+  },
+  (userSubscription) => {
+    return {
+      unique: {
+        uniqueIdx: uniqueIndex('unique_idx').on(userSubscription.id),
+      }
+    }
+  }
 );
