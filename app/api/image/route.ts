@@ -12,7 +12,6 @@ export async function POST(req: Request) {
         const { userId } = auth();
         const body = await req.json();
         const { prompt, amount = 1, resolution = '512x512' } = body;
-        console.log("[CONVERSATION_REQUEST_MESSAGEs]", body);
 
         if (!prompt) {
             return new NextResponse("Bad Request: 'Prompt' field is required", { status: 400 });

@@ -12,17 +12,10 @@ export async function POST(req: Request) {
         const { userId } = auth();
         const body = await req.json();
 
-        // Log the entire request body for debugging
-        console.log("[CONVERSATION_REQUEST_BODY]", body);
-
         // Extract the message from the messages array
         const { messages } = body;
         const message = messages?.[0]?.content;
-        console.log("[CONVERSATION_REQUEST_MESSAGEs]", messages);
 
-        // Additional logging for debugging
-        console.log("[CONVERSATION_REQUEST_MESSAGE]", message);
-        console.log("[CONVERSATION_USER_ID]", userId);
 
         if (!message) {
             return new NextResponse("Bad Request: 'message' field is required", { status: 400 });
@@ -44,7 +37,6 @@ export async function POST(req: Request) {
             model: "gpt-3.5-turbo",
             messages: [{ role: 'user', content: message }]
         });
-        console.log("[CONVERSATION_RESPONSE]", response.choices[0].message);
 
         await increaseApiLimit();
         return NextResponse.json(response.choices[0].message);

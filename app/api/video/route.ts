@@ -49,7 +49,6 @@ export async function POST(req: Request) {
             }
           }
         );
-        console.log(response);
 
         await increaseApiLimit();
         return NextResponse.json(response);
