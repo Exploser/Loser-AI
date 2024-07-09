@@ -14,6 +14,7 @@ import axios from 'axios';
 import Empty from '@/components/empty';
 import { Loader } from '@/components/loader';
 import { useProModal } from '@/hooks/use-pro-modal';
+import Image from 'next/image';
 
 const MusicPage = () => {
     const proModal = useProModal();
@@ -66,7 +67,7 @@ const MusicPage = () => {
                     )}
                     { image && (
                             <div className='px-8 rounded-lg w-full flex items-center justify-center '>
-                                <img src={image} alt='Spectrogram' className='w-fit h-[50vh]'/>
+                                <Image src={image} alt='Spectrogram' width={512} height={512} />
                             </div>
                     )}
                     {music && (
