@@ -49,7 +49,9 @@ const CodePage = () => {
             setMessages((current) => [...current, userMessage, { role: 'assistant', content: response.data.content }]);
             form.reset();
         } catch (error) {
-            // Todo: Open pro modal
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
             console.error(error);
         } finally {
             router.refresh();

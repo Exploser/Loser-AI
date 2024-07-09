@@ -16,6 +16,7 @@ import { Loader } from '@/components/loader';
 import { cn } from '@/lib/utils';
 import { UserAvatar } from '@/components/user-avatar';
 import { BotAvatar } from '@/components/bot-avatar';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 type ChatCompletionRequestMessage = {
     role: string;
@@ -23,6 +24,7 @@ type ChatCompletionRequestMessage = {
 };
 
 const ConversationPage = () => {
+    const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -47,8 +49,10 @@ const ConversationPage = () => {
             console.log(response);
             setMessages((current) => [...current, userMessage, { role: 'assistant', content: response.data.content }]);
             form.reset();
-        } catch (error) {
-            // Todo: Open pro modal
+        } catch (error: any) {
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
             console.error(error);
         } finally {
             router.refresh();

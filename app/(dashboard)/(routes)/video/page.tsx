@@ -13,8 +13,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import Empty from '@/components/empty';
 import { Loader } from '@/components/loader';
+import { useProModal } from '@/hooks/use-pro-modal';
 
 const VideoPage = () => {
+    const proModal = useProModal();
     const router = useRouter();
     const [video, setVideo] = useState<string>();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -32,8 +34,10 @@ const VideoPage = () => {
             const response = await axios.post("/api/video", values);
             setVideo(response.data[0]);
             form.reset();
-        } catch (error) {
-            // Todo: Open pro modal
+        } catch (error : any) {
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
             console.error(error);
         } finally {
             router.refresh();
