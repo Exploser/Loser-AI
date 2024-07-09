@@ -1,3 +1,4 @@
+import { checkApiLimit, increaseApiLimit } from '@/lib/api-limit';
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
@@ -33,14 +34,20 @@ export async function POST(req: Request) {
             return new NextResponse("Internal Server Error: OpenAI API key not configured", { status: 500 });
         }
 
+        const freeTrial = await checkApiLimit();
+
+        if (!freeTrial) {
+            return new NextResponse("Payment Required: Free trial limit exceeded", { status: 403 });
+        }
+
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{ role: 'user', content: message }]
         });
         console.log("[CONVERSATION_RESPONSE]", response.choices[0].message);
 
+        await increaseApiLimit();
         return NextResponse.json(response.choices[0].message);
-
     } catch (error) {
         console.log("[CONVERSATION_ERROR]", error);
         return new NextResponse("Internal Server Error", { status: 500 });
