@@ -34,7 +34,7 @@ export const userApiLimit = createTable(
   (userApiLimit) => {
     return {
       unique: {
-        uniqueIdx: uniqueIndex('unique_idx').on(userApiLimit.userId),
+        uniqueIdx: uniqueIndex('unique_idx').on(userApiLimit.id),
     }
   }}
 );
