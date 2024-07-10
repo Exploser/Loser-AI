@@ -6,6 +6,7 @@ import {
 } from '@clerk/nextjs'
 import { ModalProvider } from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaster-provider";
+import { CrispProvider } from "@/components/crisp-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +23,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <CrispProvider />
         <body className={inter.className}>
           <ModalProvider />
           <ToasterProvider />
-          {children}
+          <main className="h-full bg-[#111827] overflow-auto">
+            <div className="mx-auto max-w-screen-xl h-full w-full">
+              {children}
+            </div>
+          </main>
         </body>
       </html>
     </ClerkProvider>
