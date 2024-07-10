@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { db } from "../../../server/drizzle/index";
 import { stripe } from '@/lib/stripe'
 import { absoluteUrl } from '@/lib/utils'
+import { db } from "../../../server/drizzle/index";
 import { eq } from 'drizzle-orm';
 import { currentUser } from '@clerk/nextjs/server';
 
@@ -24,6 +24,7 @@ export async function GET() {
                 customer: userSubscription.stripeCustomerId,
                 return_url: settingsUrl
             });
+
             return new NextResponse(JSON.stringify({url: stripeSession.url}));
         }
 
@@ -51,7 +52,7 @@ export async function GET() {
                 }
             ],
             metadata: {
-                userId: user.id, // Ensure userId is used here
+                userId: user.id,
             }
         });
 
