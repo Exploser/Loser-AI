@@ -110,7 +110,7 @@ const ConversationPage = () => {
                                         <Input
                                             className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent'
                                             disabled={isLoading}
-                                            placeholder='How much a person would need to eat to release 1kg of poop ?'
+                                            placeholder='Can you help me with something?'
                                             {...field}
                                         />
                                     </FormControl>

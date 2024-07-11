@@ -28,7 +28,7 @@ export default function RootLayout({
           <ModalProvider />
           <ToasterProvider />
           <main className="h-full bg-[#111827] overflow-auto">
-            <div className="mx-auto max-w-screen-xl h-full w-full">
+            <div className="max-w-screen-xl h-full mx-auto">
               {children}
             </div>
           </main>
